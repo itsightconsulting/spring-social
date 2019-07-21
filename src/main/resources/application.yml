@@ -61,5 +61,6 @@ app:
     authorizedRedirectUris:
       - http://localhost:3000/oauth2/redirect
       - http://52.186.67.112:8080/oauth2/redirect
+      - https://www.runfit.pe/oauth2/redirect
       - myandroidapp://oauth2/redirect
       - myiosapp://oauth2/redirect

@@ -10,6 +10,7 @@ import com.example.springsocial.repository.UserRepository;
 import com.example.springsocial.security.UserPrincipal;
 import com.example.springsocial.security.oauth2.user.OAuth2UserInfo;
 import com.example.springsocial.security.oauth2.user.OAuth2UserInfoFactory;
+import com.example.springsocial.util.Utilitarios;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
@@ -76,6 +77,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
+        String randomSecret = Utilitarios.generarRandomPassword(16);
         User user = new User();
 
         user.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
@@ -83,10 +85,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         user.setName(oAuth2UserInfo.getName());
         user.setEmail(oAuth2UserInfo.getEmail());
         user.setImageUrl(oAuth2UserInfo.getImageUrl());
+        user.setSecret(randomSecret);
         //Spring security table
         SecurityUser su = new SecurityUser();
         su.setUsername(oAuth2UserInfo.getEmail());
-        su.setPassword(new BCryptPasswordEncoder().encode("runfit123oauth"));
+        su.setPassword(Utilitarios.encoderPassword(randomSecret));
         su.setEnabled(true);
         SecurityRole sr = new SecurityRole("ROLE_SOCIAL");
         HashSet<SecurityRole> setRoles = new HashSet<>();

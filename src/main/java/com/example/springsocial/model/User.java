@@ -27,6 +27,9 @@ public class User {
     private Boolean emailVerified = false;
 
     @JsonIgnore
+    private String secret;
+
+    @JsonIgnore
     private String password;
 
     @NotNull
@@ -97,5 +100,13 @@ public class User {
 
     public void setProviderId(String providerId) {
         this.providerId = providerId;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 }

@@ -1,6 +1,6 @@
 spring:
     datasource:
-        url: jdbc:postgresql://52.186.67.112:5432/runfit
+        url: jdbc:postgresql://127.0.0.1:5432/runfit
         username: postgres
         password: sql
         driver-class-name: org.postgresql.Driver

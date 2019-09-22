@@ -1,8 +1,8 @@
 spring:
     datasource:
-        url: jdbc:postgresql://127.0.0.1:5432/runfit
+        url: jdbc:postgresql://dev-db.ccnth4cssgmn.us-east-2.rds.amazonaws.com/runfit
         username: postgres
-        password: sql
+        password: ${DB_PROD_PASSWORD}
         driver-class-name: org.postgresql.Driver
     jpa:
         show-sql: true
@@ -51,7 +51,7 @@ spring:
 app:
   auth:
     tokenSecret: 926D96C90030DD58429D2751AC1BDXXX
-    tokenExpirationMsec: 60000
+    tokenExpirationMsec: 600
     #864000000
   oauth2:
     # After successfully authenticating with the OAuth2 Provider,
@@ -60,6 +60,7 @@ app:
     # We're not using cookies because they won't work well in mobile clients.
     authorizedRedirectUris:
       - http://localhost:3000/oauth2/redirect
+      - http://ec2-18-191-219-0.us-east-2.compute.amazonaws.com/oauth2/redirect
       - http://52.186.67.112:8080/oauth2/redirect
       - https://www.runfit.pe/oauth2/redirect
       - myandroidapp://oauth2/redirect

@@ -92,8 +92,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         su.setPassword(Utilitarios.encoderPassword(randomSecret));
         su.setEnabled(true);
         SecurityRole sr = new SecurityRole("ROLE_SOCIAL");
+        SecurityRole sr1 = new SecurityRole("ROLE_GUEST");
         HashSet<SecurityRole> setRoles = new HashSet<>();
         setRoles.add(sr);
+        setRoles.add(sr1);
         su.setRoles(setRoles);
         securityUserRepository.save(su);
         return userRepository.save(user);

@@ -62,6 +62,7 @@ app:
       - http://localhost:3000/oauth2/redirect
       - http://ec2-18-191-219-0.us-east-2.compute.amazonaws.com/oauth2/redirect
       - http://52.186.67.112:8080/oauth2/redirect
+      - http://127.0.0.1:8080/oauth2/redirect
       - https://www.runfit.pe/oauth2/redirect
       - myandroidapp://oauth2/redirect
       - myiosapp://oauth2/redirect

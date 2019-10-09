@@ -1,5 +1,6 @@
 package com.example.springsocial.util;
 
+import org.hashids.Hashids;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.SecureRandom;
@@ -106,6 +107,16 @@ public class Utilitarios {
             buffer.append((char) randomLimitedInt);
         }
         return buffer.toString();
+    }
+
+    public static String getEncodeHash32Id(String schema,  Long id){
+        Hashids rfIdHash = new Hashids(schema, 32);
+        return rfIdHash.encode(id);
+    }
+
+    public static Integer getDecodeHash32Id(String schema,  String hash){
+        Hashids rfIdHash = new Hashids(schema, 32);
+        return Integer.parseInt(String.valueOf(rfIdHash.decode(hash).length > 0 ? rfIdHash.decode(hash)[0] : 0));
     }
 }
 

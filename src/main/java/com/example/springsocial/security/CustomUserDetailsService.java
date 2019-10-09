@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+
 /**
  * Created by rajeevkumarsingh on 02/08/17.
  */
@@ -39,6 +41,8 @@ public class CustomUserDetailsService implements UserDetailsService {
             () -> new ResourceNotFoundException("User", "id", id)
         );
 
-        return UserPrincipal.create(user);
+        HashMap<String, Object> attrs = new HashMap<>();
+        attrs.put("secret", user.getSecret());
+        return UserPrincipal.create(user, attrs);
     }
 }

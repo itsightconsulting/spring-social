@@ -21,10 +21,10 @@ public class UserController {
     @GetMapping("/user/me")
     @PreAuthorize("hasRole('USER')")
     public UserSsoDTO getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
-        User user = userRepository.findById(userPrincipal.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
         UserSsoDTO userRes = new UserSsoDTO();
-        BeanUtils.copyProperties(user, userRes);
+        userRes.setId(userPrincipal.getId());
+        userRes.setEmail(userPrincipal.getEmail());
+        userRes.setSecret(userPrincipal.getAttributes().get("secret").toString());
         return userRes;
     }
 }

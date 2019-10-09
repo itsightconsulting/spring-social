@@ -22,8 +22,10 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
@@ -72,12 +74,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 throw new OAuth2AuthenticationProcessingException("Email has been already registered, please do sign on with normal login");
             }
         }
-
         return UserPrincipal.create(user, oAuth2User.getAttributes());
     }
 
     private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
-        String randomSecret = Utilitarios.generarRandomPassword(16);
         User user = new User();
 
         user.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
@@ -85,11 +85,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         user.setName(oAuth2UserInfo.getName());
         user.setEmail(oAuth2UserInfo.getEmail());
         user.setImageUrl(oAuth2UserInfo.getImageUrl());
-        user.setSecret(randomSecret);
+        Integer differentialFactor = new Random().ints(4, 0, 100).sum();
+        Long artificialPass = Long.valueOf(oAuth2UserInfo.getId()) + differentialFactor;
+        user.setSecret(Utilitarios.getEncodeHash32Id("rf-social-tecres", artificialPass));
+        user.setCreationDate(new Date());
         //Spring security table
         SecurityUser su = new SecurityUser();
         su.setUsername(oAuth2UserInfo.getEmail());
-        su.setPassword(Utilitarios.encoderPassword(randomSecret));
+        su.setPassword(new BCryptPasswordEncoder().encode(String.valueOf(artificialPass)));
         su.setEnabled(true);
         SecurityRole sr = new SecurityRole("ROLE_SOCIAL");
         SecurityRole sr1 = new SecurityRole("ROLE_GUEST");

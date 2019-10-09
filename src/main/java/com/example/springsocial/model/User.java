@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {
@@ -31,6 +32,11 @@ public class User {
 
     @JsonIgnore
     private String password;
+
+    @Column
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
+    private Date creationDate;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -84,6 +90,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public AuthProvider getProvider() {
